@@ -162,7 +162,7 @@ public class RestyGWTProcessor extends AbstractProcessor {
                     """, simpleClassName, simpleClassName, simpleClassName, simpleClassName);
 
             if (url != null && !url.isBlank()) {
-                out.printf(SET_URL_TEMPLATE, simpleRestyName, CodeBlock.of("$S", url).toString());
+                out.print(SET_URL_TEMPLATE.formatted(simpleRestyName, CodeBlock.of("$S", url).toString()));
             }
 
             out.print("""
