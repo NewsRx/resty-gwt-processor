@@ -136,6 +136,10 @@ public class RestyGWTProcessor extends AbstractProcessor {
                             
                                 default void setBaseUrl(String baseUrl) {
                                     final Resource resource = new Resource(baseUrl);
+                                    setResource(resource);
+                                }
+                            
+                                default void setResource(Resource resource) {
                                     final RestServiceProxy restServiceProxy = (RestServiceProxy) %s.rest;
                                     restServiceProxy.setResource(resource);
                                 }
