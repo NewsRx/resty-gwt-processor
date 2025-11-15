@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id "idea"
+    id "org.jetbrains.gradle.plugin.idea-ext"
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+java.withSourcesJar()
+sourcesJar {
+    from sourceSets.main.allSource
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+repositories {
+    mavenCentral()
+    google()
+    maven { url 'https://packages.jetbrains.team/maven/p/ij/intellij-dependencies/' }
+    maven { url 'https://jitpack.io' }
+    maven { url "https://github.com/psiegman/mvn-repo/raw/master/releases" }
+}
+
+dependencies {
+    annotationProcessor 'com.google.auto.service:auto-service:1.1.1'
+    implementation 'com.google.auto.service:auto-service-annotations:1.1.1'
+    implementation project(':resty-gwt-annotations')
+    implementation 'com.squareup:javapoet:1.13.0'
+}
+
+tasks.register('create-dirs') {
+    doLast {
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    }
+}
+
+test {
+    useTestNG()
+    testLogging.showStandardStreams = true
+}
