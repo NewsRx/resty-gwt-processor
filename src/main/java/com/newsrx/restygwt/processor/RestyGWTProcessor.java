@@ -36,16 +36,17 @@ import java.util.Set;
 @AutoService(Processor.class)
 public class RestyGWTProcessor extends AbstractProcessor {
 
-    // rtype, method, margs, rtype, rtype, rest, rest, rtype, method, margs
+    // returnType, methodName, paramDeclStr, returnType, returnType, simpleRestyName, methodName, paramNameStr
     private static final String METHOD_TEMPLATE = """
-                public Promise<%s> %s(%s) {
-                    CallbackPromise<%s> callback = new CallbackPromise<>();
-                    REST<%s> withCallback = REST.withCallback(callback);
-                    %s rest = withCallback.call(%s.rest);
-                    %s ignored = rest.%s(%s);
-                    return callback.getPromise();
+                public RestyPromise<%s> %s(%s) {
+                    RestyPromise<%s> promise = new RestyPromise<>();
+                    %s ignored = REST.withCallback(promise)
+                        .call(%s.rest).%s(%s);
+                    return promise;
                 }
             """;
+
+
     // url, rest
     private static final String SET_URL_TEMPLATE = """
                     %s.rest.setBaseUrl(%s);
@@ -121,8 +122,7 @@ public class RestyGWTProcessor extends AbstractProcessor {
                             import com.google.gwt.core.client.GWT;
                             import %s;
                             
-                            import com.newsrx.restygwt.util.CallbackPromise;
-                            import elemental2.promise.Promise;
+                            import com.newsrx.restygwt.util.RestyPromise;
                             
                             import org.fusesource.restygwt.client.DirectRestService;
                             import org.fusesource.restygwt.client.Dispatcher;
@@ -213,16 +213,14 @@ public class RestyGWTProcessor extends AbstractProcessor {
                 // Fill in METHOD_TEMPLATE
                 // rtype, method, margs, rtype, rtype, rest, rest, rtype, method, margs
                 String stub = METHOD_TEMPLATE.formatted( //
-                        returnType,              // %s return type for Promise
-                        methodName,              // %s method name
-                        paramDeclStr,            // %s parameter declarations
-                        returnType,              // %s callback type
-                        returnType,              // %s REST type
-                        simpleRestyName,         // %s ignored variable type
-                        simpleRestyName,         // %s rest service reference
-                        returnType,              // %s callback type
-                        methodName,              // %s method call
-                        paramNameStr             // %s parameter names
+                        returnType,       // %s → RestyPromise<returnType>
+                        methodName,       // %s → method name
+                        paramDeclStr,     // %s → parameter declarations
+                        returnType,       // %s → generic type for RestyPromise
+                        returnType,       // %s → type of ignored variable
+                        simpleRestyName,  // %s → DirectRestService interface name
+                        methodName,       // %s → method call
+                        paramNameStr      // %s → parameter names
                 );
 
                 out.println(stub);
