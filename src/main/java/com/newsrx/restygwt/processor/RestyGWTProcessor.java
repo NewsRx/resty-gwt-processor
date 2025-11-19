@@ -222,7 +222,9 @@ public class RestyGWTProcessor extends AbstractProcessor {
                         methodName,       // %s → method call
                         paramNameStr      // %s → parameter names
                 );
-
+                if (returnType.equals("Void")) {
+                    stub = stub.replace("Void ignored = ", "");
+                }
                 out.println(stub);
             }
 
