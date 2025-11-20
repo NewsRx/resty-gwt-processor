@@ -134,14 +134,28 @@ public class RestyGWTProcessor extends AbstractProcessor {
                             
                                 %s rest = GWT.create(%s.class);
                             
+                                default String getBaseUrl() {
+                                    return getResource().getUri();
+                                }
+                            
                                 default void setBaseUrl(String baseUrl) {
                                     final Resource resource = new Resource(baseUrl);
                                     setResource(resource);
                                 }
                             
+                                default Resource getResource() {
+                                    final RestServiceProxy restServiceProxy = (RestServiceProxy) %s.rest;
+                                    return restServiceProxy.getResource();
+                                }
+                            
                                 default void setResource(Resource resource) {
                                     final RestServiceProxy restServiceProxy = (RestServiceProxy) %s.rest;
                                     restServiceProxy.setResource(resource);
+                                }
+                            
+                                default Dispatcher getDispatcher() {
+                                    final RestServiceProxy restServiceProxy = (RestServiceProxy) %s.rest;
+                                    return restServiceProxy.getDispatcher();
                                 }
                             
                                 default void setDispatcher(Dispatcher dispatcher) {
@@ -151,7 +165,7 @@ public class RestyGWTProcessor extends AbstractProcessor {
                             }
                             
                             """, className, simpleRestyName, className, simpleRestyName, simpleRestyName, //
-                    simpleRestyName, simpleRestyName);
+                    simpleRestyName, simpleRestyName, simpleRestyName, simpleRestyName);
 
             out.printf("""
                     public class %s {
