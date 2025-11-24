@@ -119,18 +119,24 @@ public class RestyGWTProcessor extends AbstractProcessor {
                         """, packageName);
             }
             out.printf("""
-                            import com.google.gwt.core.client.GWT;
-                            import %s;
-                            
-                            import com.newsrx.restygwt.util.RestyPromise;
-                            
-                            import org.fusesource.restygwt.client.DirectRestService;
-                            import org.fusesource.restygwt.client.Dispatcher;
-                            import org.fusesource.restygwt.client.REST;
-                            import org.fusesource.restygwt.client.Resource;
-                            import org.fusesource.restygwt.client.RestServiceProxy;
-                            
-                            interface %s extends %s, DirectRestService {
+                    import com.google.gwt.core.client.GWT;
+                    import %s;
+                    
+                    import com.newsrx.restygwt.util.RestyPromise;
+                    
+                    import org.fusesource.restygwt.client.DirectRestService;
+                    import org.fusesource.restygwt.client.Dispatcher;
+                    import org.fusesource.restygwt.client.REST;
+                    import org.fusesource.restygwt.client.Resource;
+                    import org.fusesource.restygwt.client.RestServiceProxy;
+                    
+                    """, className);
+            out.printf("""
+                    public class %s {
+                    
+                    """, simpleClassName);
+            out.printf("""                            
+                                public interface %s extends %s, DirectRestService {
                             
                                 %s rest = GWT.create(%s.class);
                             
@@ -164,16 +170,14 @@ public class RestyGWTProcessor extends AbstractProcessor {
                                 }
                             }
                             
-                            """, className, simpleRestyName, className, simpleRestyName, simpleRestyName, //
+                            """, simpleRestyName, className, simpleRestyName, simpleRestyName, //
                     simpleRestyName, simpleRestyName, simpleRestyName, simpleRestyName);
 
             out.printf("""
-                    public class %s {
-                    
                         public static final %s INSTANCE = new %s();
                     
                         protected %s() {
-                    """, simpleClassName, simpleClassName, simpleClassName, simpleClassName);
+                    """, simpleClassName, simpleClassName, simpleClassName);
 
             if (url != null && !url.isBlank()) {
                 out.print(SET_URL_TEMPLATE.formatted(simpleRestyName, CodeBlock.of("$S", url).toString()));
