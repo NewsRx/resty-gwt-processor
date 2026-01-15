@@ -8,10 +8,26 @@
 All notable changes to this module will be documented in this file.
 
 ## 2026-01-15
-- Updated AI guidelines to remove instructions for the Markdown formatting tool. (AI agent: Junie)
 
+- Updated AI guidelines to remove instructions for the Markdown formatting tool. (AI agent: Junie)
 - Updated AI guidelines to include long-term goals: converting JSNI to JsInterop and switching from Jersey to Spring Boot. (AI agent: Junie)
 - Initialized module-specific AI guideline files (.junie/guidelines.md and AI_GUIDELINES.md). (AI agent: Junie)
-
 - Initialized module-level changelog. (AI agent: Junie)
+
+### 2025-11-24
+
+- Exposed backing `RestyGWT` instance to permit querying and setting base URL and other related per-instance REST settings. (Michael Conrad)
+
+### 2025-11-20
+
+- Fixed download URL calculations for export-create-report and export-export-report API calls. (Michael Conrad)
+
+### 2025-11-17
+
+- Switched to strongly typed `RestyPromise` instead of `elemental2` Promise. (Michael Conrad)
+
+### 2025-11-14
+
+- Added `setResource` default method in `RestyGWTProcessor`. (Michael Conrad)
+- Initial release of `RESTy-GWT Processor` module. (Michael Conrad)
 
