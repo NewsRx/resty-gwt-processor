@@ -3,6 +3,69 @@ status: open
 labels:
 - needs-approval
 - spec-draft
-body: ''
+body: '> Full spec and plan artifacts: https://github.com/NewsRx/resty-gwt-processor/tree/issues-data/.issues/2/
+
+
+  ## Problem
+
+
+  TestNG `testLogging.showStandardStreams = true` in build.gradle floods the standard
+  build output with captured stdout/stderr from every test class, making `./gradlew
+  build` output noisy and real warnings hard to spot; the setting is a debugging leftover,
+  not a deliverable. Occurrence: line 45 of build.gradle.
+
+
+  ## Scope
+
+
+  - Remove every `showStandardStreams = true` occurrence from this repo''s build.gradle
+
+  - Remove any enclosing now-empty `testLogging { }` block
+
+  - No other test-logging changes
+
+  - No production code changes
+
+
+  **Out of scope:** adding log capture/redirects, changing test assertions, touching
+  other repos.
+
+
+  ## Approach
+
+
+  Minimal deletion of the `showStandardStreams = true` lines (and any resulting empty
+  `testLogging` block) from build.gradle. This module is included in the Butter root
+  build (verified: `grep -n "resty-gwt" settings.gradle` — settings.gradle lines 33-35);
+  verification runs through the root Gradle build (Butter root /home/michael/git/Butter,
+  `./gradlew :<Module>:test`, 0 skipped 0 failed); NEVER a submodule''s own gradlew.
+
+
+  ## Success Criteria
+
+
+  | SC | Description | Evidence Type | Verification |
+
+  |----|-------------|---------------|--------------|
+
+  | SC-1 | `grep -c "showStandardStreams" build.gradle` returns 0 | structural | grep
+  on build.gradle |
+
+  | SC-2 | Root-build module test suite green, 0 skipped, 0 failed | behavioral |
+  `./gradlew :<Module>:test` from Butter root |
+
+
+  ## Requirements
+
+
+  - R-1: zero `showStandardStreams` occurrences remain in build.gradle
+
+  - R-2: test suite green with 0 skipped
+
+
+  *Co-authored with AI: OpenCode (zai-org/GLM-5.3-Flash)*
+
+  '
 created_at: '2026-09-14T14:42:51+00:00'
-updated_at: '2026-09-14T14:42:51+00:00'
+updated_at: '2026-09-14T14:42:53+00:00'
+remote_url: https://github.com/NewsRx/resty-gwt-processor/issues/2
