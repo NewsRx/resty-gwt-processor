@@ -1,0 +1,8 @@
+title: '[SPEC] Remove TestNG showStandardStreams=true from build.gradle'
+status: open
+labels:
+- needs-approval
+- spec-draft
+body: ''
+created_at: '2026-09-14T14:42:51+00:00'
+updated_at: '2026-09-14T14:42:51+00:00'
